@@ -17,27 +17,16 @@ public class Rule {
 	public static void setIsWinners(ArrayList<Car> cars) {
 		int maxPosition = getMaxPosition(cars);
 
-		for(Car car : cars) {
-			if(isMaxPosition(car, maxPosition)) {
-				car.setIsWinner();
-			}
-		}
+		cars.stream()
+				.filter(car -> isMaxPosition(car, maxPosition))
+				.forEach(Car::setIsWinner);
 	}
 
 	private static int getMaxPosition(ArrayList<Car> cars) {
-		int maxPosition = START_POSITION;
-
-		for(Car car : cars) {
-			maxPosition = updateMaxPosition(car, maxPosition);
-		}
-		return maxPosition;
-	}
-
-	private static int updateMaxPosition(Car car, int maxPosition) {
-		if(maxPosition == START_POSITION || maxPosition < car.getPosition()) {
-			maxPosition = car.getPosition();
-		}
-		return maxPosition;
+		return cars.stream()
+				.map(Car::getPosition)
+				.reduce(START_POSITION, (position1, position2) ->
+						position1 >= position2 ? position1 : position2);
 	}
 
 	private static boolean isMaxPosition(Car car, int maxPosition) {

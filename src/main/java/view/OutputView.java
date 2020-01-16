@@ -1,6 +1,7 @@
 package view;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import domain.Car;
 
@@ -13,10 +14,8 @@ public class OutputView {
 	}
 
 	public static void printCarsPosition(ArrayList<Car> cars) {
-		for(Car car : cars) {
-			System.out.println(getResultLine(car));
-		}
-		System.out.print('\n');
+		cars.forEach(car -> System.out.println(getResultLine(car)));
+		System.out.println();
 	}
 
 	private static String getResultLine(Car car) {
@@ -36,14 +35,10 @@ public class OutputView {
 	}
 
 	private static ArrayList<String> getWinnerNames(ArrayList<Car> cars) {
-		ArrayList<String> winnerNames = new ArrayList<>();
-
-		for(Car car : cars) {
-			if(car.getIsWinner()) {
-				winnerNames.add(car.getName());
-			}
-		}
-		return winnerNames;
+		return (ArrayList<String>) cars.stream()
+				.filter(Car::getIsWinner)
+				.map(Car::getName)
+				.collect(Collectors.toList());
 	}
 
 	private static String getWinnersLine(ArrayList<String> winnerNames) {

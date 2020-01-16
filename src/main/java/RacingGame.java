@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.InputMismatchException;
+import java.util.*;
 
 import domain.Car;
 import domain.Rule;
@@ -23,19 +21,11 @@ public class RacingGame {
 	}
 
 	private void buildCars() {
-		ArrayList<String> carNames = getCarNames();
-		for (String carName : carNames) {
-			Car car = new Car(carName);
-			cars.add(car);
-		}
-	}
+		final List<String> carNames = Arrays.asList(InputHandler.splitByComma(InputView.carNames()));
 
-	private ArrayList<String> getCarNames() {
-		ArrayList<String> carNames = new ArrayList<>();
-
-		String[] inputNames = InputHandler.splitByComma(InputView.carNames());
-		Collections.addAll(carNames, inputNames);
-		return carNames;
+		carNames.stream()
+				.map(Car::new)
+				.forEach(cars::add);
 	}
 
 	private void getTryNumber() {

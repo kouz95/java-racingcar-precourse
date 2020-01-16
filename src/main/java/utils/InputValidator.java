@@ -1,6 +1,7 @@
 package utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class InputValidator {
 	private static final int MAX_INPUT_LENGTH = 5;
@@ -19,21 +20,13 @@ public class InputValidator {
 	}
 
 	static boolean isEmptyLine(String[] inputs) {
-		for(String inputName : inputs) {
-			if(inputName.isEmpty()) {
-				return true;
-			}
-		}
-		return false;
+		return Arrays.stream(inputs)
+				.anyMatch(String::isEmpty);
 	}
 
 	static boolean isOutOfRange(String[] inputs) {
-		for(String inputName : inputs) {
-			if(inputName.length() > MAX_INPUT_LENGTH) {
-				return true;
-			}
-		}
-		return false;
+		return Arrays.stream(inputs)
+				.anyMatch(input -> input.length() > MAX_INPUT_LENGTH);
 	}
 
 	public static boolean isValidNumber(int inputNumber) {
